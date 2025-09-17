@@ -1,0 +1,464 @@
+[
+
+    {
+
+        "id": "b00e3780f0760e28",
+
+        "type": "tab",
+
+        "label": "Flow 1",
+
+        "disabled": false,
+
+        "info": "",
+
+        "env": []
+
+    },
+
+    {
+
+        "id": "78fa732c68c86f04",
+
+        "type": "inject",
+
+        "z": "b00e3780f0760e28",
+
+        "name": "Simular Velocidade Aleatória",
+
+        "props": [
+
+            {
+
+                "p": "payload"
+
+            }
+
+        ],
+
+        "repeat": "2",
+
+        "crontab": "",
+
+        "once": true,
+
+        "onceDelay": 0.1,
+
+        "topic": "",
+
+        "payload": "{}",
+
+        "payloadType": "json",
+
+        "x": 350,
+
+        "y": 360,
+
+        "wires": [
+
+            [
+
+                "e205309ab1bd10d7"
+
+            ]
+
+        ]
+
+    },
+
+    {
+
+        "id": "e205309ab1bd10d7",
+
+        "type": "function",
+
+        "z": "b00e3780f0760e28",
+
+        "name": "Calcular Velocidade + Histórico",
+
+        "func": "// Distância entre sensores\nlet distancia = 5.0;\n\n// Tempo aleatório entre 0.1 e 1.0 segundos\nlet deltaT = Math.random() * 0.9 + 0.1;\n\n// Calcula velocidade\nlet velocidade = distancia / deltaT;\n\n// Timestamp pt-BR\nlet data = new Date();\nlet dia = String(data.getDate()).padStart(2,'0');\nlet mes = String(data.getMonth()+1).padStart(2,'0');\nlet ano = data.getFullYear();\nlet hora = String(data.getHours()).padStart(2,'0');\nlet min = String(data.getMinutes()).padStart(2,'0');\nlet seg = String(data.getSeconds()).padStart(2,'0');\nlet timestampPTBR = `${dia}/${mes}/${ano} ${hora}:${min}:${seg}`;\n\n// Montar payload\nmsg.payload = {\n    distancia: distancia,\n    tempo: deltaT.toFixed(2),\n    velocidade: velocidade.toFixed(2),\n    unidade: \"m/s\",\n    timestamp: timestampPTBR\n};\n\n// Histórico (flow context)\nlet historico = flow.get('historico') || [];\nhistorico.push({x: timestampPTBR, y: parseFloat(velocidade.toFixed(2))});\nif(historico.length > 20){ historico.shift(); }\nflow.set('historico', historico);\n\n// Payload para gráfico\nmsg.chartPayload = historico;\n\nreturn msg;",
+
+        "outputs": 1,
+
+        "timeout": "",
+
+        "noerr": 0,
+
+        "initialize": "",
+
+        "finalize": "",
+
+        "libs": [],
+
+        "x": 650,
+
+        "y": 360,
+
+        "wires": [
+
+            [
+
+                "6466b34478d7c05f",
+
+                "722807dde1e89d82",
+
+                "cafda8e2e5113823",
+
+                "9044a98586317e3c"
+
+            ]
+
+        ]
+
+    },
+
+    {
+
+        "id": "6466b34478d7c05f",
+
+        "type": "ui_gauge",
+
+        "z": "b00e3780f0760e28",
+
+        "name": "Velocidade Atual",
+
+        "group": "ui_group1",
+
+        "order": 1,
+
+        "width": 0,
+
+        "height": 0,
+
+        "gtype": "gage",
+
+        "title": "Velocidade (m/s)",
+
+        "label": "m/s",
+
+        "format": "{{msg.payload.velocidade}}",
+
+        "min": 0,
+
+        "max": 50,
+
+        "colors": [
+
+            "#00b500",
+
+            "#e6e600",
+
+            "#ca3838"
+
+        ],
+
+        "seg1": "",
+
+        "seg2": "",
+
+        "diff": false,
+
+        "className": "",
+
+        "x": 970,
+
+        "y": 260,
+
+        "wires": []
+
+    },
+
+    {
+
+        "id": "ace7f40c415306a9",
+
+        "type": "ui_chart",
+
+        "z": "b00e3780f0760e28",
+
+        "name": "Histórico Velocidade",
+
+        "group": "ui_group1",
+
+        "order": 2,
+
+        "width": 0,
+
+        "height": 0,
+
+        "label": "Velocidade (linha do tempo)",
+
+        "chartType": "line",
+
+        "legend": "false",
+
+        "xformat": "HH:mm:ss",
+
+        "interpolate": "linear",
+
+        "nodata": "Sem dados",
+
+        "dot": false,
+
+        "ymin": "0",
+
+        "ymax": "50",
+
+        "removeOlder": 20,
+
+        "removeOlderPoints": "",
+
+        "removeOlderUnit": "3600",
+
+        "cutout": 0,
+
+        "useOneColor": false,
+
+        "useUTC": false,
+
+        "colors": [
+
+            "#1f77b4",
+
+            "#000000",
+
+            "#000000",
+
+            "#000000",
+
+            "#000000",
+
+            "#000000",
+
+            "#000000",
+
+            "#000000",
+
+            "#000000"
+
+        ],
+
+        "outputs": 1,
+
+        "useDifferentColor": false,
+
+        "className": "",
+
+        "x": 1200,
+
+        "y": 360,
+
+        "wires": [
+
+            []
+
+        ]
+
+    },
+
+    {
+
+        "id": "722807dde1e89d82",
+
+        "type": "ui_text",
+
+        "z": "b00e3780f0760e28",
+
+        "group": "ui_group2",
+
+        "order": 1,
+
+        "width": 0,
+
+        "height": 0,
+
+        "name": "Healthcheck",
+
+        "label": "Status",
+
+        "format": "OK - Última atualização: {{msg.payload.timestamp}}",
+
+        "layout": "row-spread",
+
+        "className": "",
+
+        "style": false,
+
+        "font": "",
+
+        "fontSize": "",
+
+        "color": "#000000",
+
+        "x": 950,
+
+        "y": 440,
+
+        "wires": []
+
+    },
+
+    {
+
+        "id": "cafda8e2e5113823",
+
+        "type": "debug",
+
+        "z": "b00e3780f0760e28",
+
+        "name": "Debug Cálculo",
+
+        "active": true,
+
+        "tosidebar": true,
+
+        "console": false,
+
+        "tostatus": false,
+
+        "complete": "payload",
+
+        "targetType": "msg",
+
+        "statusVal": "",
+
+        "statusType": "auto",
+
+        "x": 960,
+
+        "y": 500,
+
+        "wires": []
+
+    },
+
+    {
+
+        "id": "9044a98586317e3c",
+
+        "type": "change",
+
+        "z": "b00e3780f0760e28",
+
+        "name": "",
+
+        "rules": [
+
+            {
+
+                "t": "set",
+
+                "p": "payload",
+
+                "pt": "msg",
+
+                "to": "payload.velocidade",
+
+                "tot": "msg"
+
+            }
+
+        ],
+
+        "action": "",
+
+        "property": "",
+
+        "from": "",
+
+        "to": "",
+
+        "reg": false,
+
+        "x": 960,
+
+        "y": 360,
+
+        "wires": [
+
+            [
+
+                "ace7f40c415306a9"
+
+            ]
+
+        ]
+
+    },
+
+    {
+
+        "id": "ui_group1",
+
+        "type": "ui_group",
+
+        "name": "Velocidade Bola",
+
+        "tab": "ui_tab1",
+
+        "order": 1,
+
+        "disp": true,
+
+        "width": "12",
+
+        "collapse": false
+
+    },
+
+    {
+
+        "id": "ui_group2",
+
+        "type": "ui_group",
+
+        "name": "Healthcheck",
+
+        "tab": "ui_tab1",
+
+        "order": 2,
+
+        "disp": true,
+
+        "width": "12",
+
+        "collapse": false
+
+    },
+
+    {
+
+        "id": "ui_tab1",
+
+        "type": "ui_tab",
+
+        "name": "Monitor Bola",
+
+        "icon": "dashboard",
+
+        "order": 1,
+
+        "disabled": false,
+
+        "hidden": false
+
+    },
+
+    {
+
+        "id": "fe57b23d97ca94b6",
+
+        "type": "global-config",
+
+        "env": [],
+
+        "modules": {
+
+            "node-red-dashboard": "3.6.6"
+
+        }
+
+    }
+
+]
+ 
