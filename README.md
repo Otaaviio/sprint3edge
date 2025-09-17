@@ -23,13 +23,13 @@ O objetivo deste projeto é criar um sistema de **medição de velocidade de um 
 O projeto envolve:
 
 - Um **ESP32** com sensor de velocidade (ex.: sensor de efeito Hall ou ultrassônico) que captura dados do movimento.
-- Um **Node-RED** que recebe os dados via **HTTP** e processa para exibição em tempo real.
+- Um **Node-RED** que recebe os dados via **MQTT/HTTP** e processa para exibição em tempo real.
 - Visualização gráfica da velocidade e histórico de medições.
 
 **Escopo do projeto:**
 
 - Captura de dados em tempo real do sensor de velocidade.
-- Envio dos dados via HTTP POST para Node-RED.
+- Envio dos dados via MQTT/HTTP POST para Node-RED.
 - Processamento, armazenamento temporário e visualização no dashboard do Node-RED.
 
 ---
@@ -38,7 +38,7 @@ O projeto envolve:
 
 **Diagrama de Arquitetura:**
 
-[Sensor de Velocidade] --> [ESP32] --> (HTTP POST) --> [Node-RED Dashboard] --> [Visualização Gráfica]
+[Sensor de Velocidade] --> [ESP32] --> (MQTT/HTTP POST) --> [Node-RED Dashboard] --> [Visualização Gráfica]
 
 **Componentes:**
 
@@ -46,7 +46,7 @@ O projeto envolve:
 
    - Captura a velocidade do chute usando sensor.
    - Conecta à rede Wi-Fi.
-   - Envia os dados via requisição HTTP POST para o Node-RED.
+   - Envia os dados via requisição MQTT POST para o Node-RED.
 
 2. **Backend / Plataforma Node-RED**
 
@@ -123,7 +123,7 @@ npm install node-red-dashboard
 
 3. Crie um flow com os seguintes nós:
 
-- http in (rota /velocidade, método POST)
+- MQTT/HTTP in (rota /velocidade, método POST)
 
 - json (decodifica dados do ESP32)
 
@@ -131,7 +131,7 @@ npm install node-red-dashboard
 
 - ui_gauge ou ui_chart (visualização)
 
-- http response (responde ao ESP32)
+- MQTT/HTTP response (responde ao ESP32)
 
 4. Acesse o dashboard: http://localhost:1880/ui
 
@@ -146,14 +146,6 @@ npm install node-red-dashboard
 6. Estrutura de Código Fonte
 
 ESP32:
-
-```bash
-/ESP32
-├─ main.ino       # Código principal
-├─ config.h       # Configurações de rede e URL
-├─ sensor.h       # Funções de leitura do sensor (opcional)
-
-```
 
 Node-RED:
 
