@@ -2,7 +2,6 @@ import React from 'react';
 
 function StatusCard({ label, value, unit, status }) {
   
-  // Define a cor do status
   const getStatusColor = (status) => {
     if (status === 'Alta') return 'text-red-500';
     if (status === 'Baixa') return 'text-blue-500';

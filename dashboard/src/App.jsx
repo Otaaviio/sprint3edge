@@ -1,15 +1,15 @@
 /*
 👥 Equipe Goal Breakers
 
--   **Áurea Sardinha - 563837**
--   **Eduardo Ulisses - 566339**
--   **Henrique Guedes - 562474**
--   **Laura Tigre - 565281**
--   **Otávio Inaba - 565003**
+-   Áurea Sardinha - 563837
+-   Eduardo Ulisses - 566339
+-   Henrique Guedes - 562474
+-   Laura Tigre - 565281
+-   Otávio Inaba - 565003
 */
 
-import React from 'react';
-import Dashboard from './components/Dashboard';
+import React from "react";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
