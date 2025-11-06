@@ -51,11 +51,11 @@ Sistema IoT que monitora em tempo real as condições ambientais de campos de fu
 
 | #   | Cenário                   | Status         | Evidência                     |
 | --- | ------------------------- | -------------- | ----------------------------- |
-| 1   | Coleta e transmissão MQTT | ✅ Funcionando | [Vídeo 00:30](LINK#timestamp) |
-| 2   | Processamento FIWARE      | ✅ Funcionando | [Vídeo 01:15](LINK#timestamp) |
-| 3   | Dashboard em tempo real   | ✅ Funcionando | [Vídeo 02:00](LINK#timestamp) |
-| 4   | Comandos bidirecionais    | ✅ Funcionando | [Vídeo 03:30](LINK#timestamp) |
-| 5   | Persistência histórica    | ✅ Funcionando | [Vídeo 04:00](LINK#timestamp) |
+| 1   | Coleta e transmissão MQTT | ✅ Funcionando |                               |
+| 2   | Processamento FIWARE      | ✅ Funcionando |                               |
+| 3   | Dashboard em tempo real   | ✅ Funcionando |    [Vídeo](LINK DO VIDEO)     |
+| 4   | Comandos bidirecionais    | ✅ Funcionando |                               |
+| 5   | Persistência histórica    | ✅ Funcionando |                               |
 
 ### 📊 Métricas Obtidas
 
@@ -205,4 +205,5 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 - [FIWARE Descomplicado](https://github.com/fabiocabrini/fiware)
 - [ESP32 Documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/)
 - [MQTT Protocol](https://mqtt.org/)
+
 
