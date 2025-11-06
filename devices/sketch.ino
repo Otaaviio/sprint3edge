@@ -4,6 +4,16 @@
 #include <Wire.h>
 #include <stdio.h>
 
+/*
+👥 Equipe Goal Breakers
+
+-   **Áurea Sardinha - 563837**
+-   **Eduardo Ulisses - 566339**
+-   **Henrique Guedes - 562474**
+-   **Laura Tigre - 565281**
+-   **Otávio Inaba - 565003**
+*/
+
 #define TOPICO_SUBSCRIBE "/TEF/device001/cmd"
 #define TOPICO_PUBLISH   "/TEF/device001/attrs"
 #define TOPICO_PUBLISH_1 "/TEF/device001/attrs/s"

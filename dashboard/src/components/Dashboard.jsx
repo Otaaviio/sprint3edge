@@ -1,4 +1,14 @@
-import React, { useState, useEffect } from "react";
+/*
+👥 Equipe Goal Breakers
+
+-   **Áurea Sardinha - 563837**
+-   **Eduardo Ulisses - 566339**
+-   **Henrique Guedes - 562474**
+-   **Laura Tigre - 565281**
+-   **Otávio Inaba - 565003**
+*/
+
+import { useState, useEffect } from "react";
 import SensorChart from "./SensorChart";
 import StatusCard from "./StatusCard";
 
@@ -24,7 +34,7 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    const ipAddress = "104.197.175.207"; // IP da sua VM
+    const ipAddress = import.meta.env.VITE_API_URL; // IP da sua VM
 
     const buscarDados = async () => {
       try {
