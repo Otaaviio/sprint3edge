@@ -33,6 +33,8 @@ Sistema IoT que monitora em tempo real as condições ambientais de campos de fu
 | 🔄 **Controle Remoto**   | Comandos MQTT bidirecionais                 |
 | 📊 **Dashboard**         | Visualização React em tempo real            |
 
+
+> 🔁 **[Link do circuito](https://wokwi.com/projects/444821783999289345)**
 ---
 
 ## 🎥 Demonstração
@@ -203,3 +205,4 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 - [FIWARE Descomplicado](https://github.com/fabiocabrini/fiware)
 - [ESP32 Documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/)
 - [MQTT Protocol](https://mqtt.org/)
+
