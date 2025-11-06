@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "author": "Otávio Inaba",
+  "editor": "wokwi",
+  "parts": [
+    { 
+      "type": "wokwi-breadboard-half", 
+      "id": "bb2", 
+      "top": 6.6, 
+      "left": -765.2, 
+      "attrs": {} 
+    },
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": -19.2,
+      "left": -144,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht1",
+      "top": -134.1,
+      "left": -303,
+      "attrs": { "humidity": "33.5", "temperature": "7.6" }
+    },
+    {
+      "type": "wokwi-photoresistor-sensor",
+      "id": "ldr1",
+      "top": 233.6,
+      "left": -450.4,
+      "attrs": {}
+    },
+    { 
+      "type": "wokwi-led", 
+      "id": "led1", 
+      "top": 169.2, 
+      "left": 71, 
+      "attrs": { "color": "red" } 
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -4.8,
+      "left": -403.75,
+      "rotate": 90,
+      "attrs": { "value": "10000" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 234.35,
+      "left": -19.2,
+      "attrs": { "value": "220" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+    [ "dht1:GND", "esp:GND.1", "black", [ "v-9.6", "h172.8" ] ],
+    [ "dht1:SDA", "esp:D4", "green", [ "v9.6", "h230.4" ] ],
+    [ "r1:1", "dht1:SDA", "yellow", [ "h0" ] ],
+    [ "r1:2", "dht1:VCC", "yellow", [ "h0" ] ],
+    [ "dht1:VCC", "esp:3V3", "red", [ "v28.8", "h230.4" ] ],
+    [ "led1:A", "esp:D2", "green", [ "v0", "h-38.4", "v-115.2" ] ],
+    [ "led1:C", "r2:2", "green", [ "v0" ] ],
+    [ "r2:1", "esp:GND.2", "black", [ "v0" ] ],
+    [ "ldr1:AO", "esp:D34", "green", [ "h230.4", "v-106.3" ] ],
+    [ "esp:GND.1", "bb2:bn.25", "black", [ "h-124.8", "v28.8", "h-48" ] ],
+    [ "esp:VIN", "bb2:bp.25", "red", [ "h-153.6", "v-19.2" ] ],
+    [ "ldr1:VCC", "bb2:bp.21", "red", [ "h67.2", "v67.2", "h-307.2" ] ],
+    [ "ldr1:GND", "bb2:bn.20", "black", [ "h38.4", "v66.8", "h-288" ] ]
+  ],
+  "dependencies": {}
+}

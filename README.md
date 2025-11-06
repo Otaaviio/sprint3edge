@@ -1,155 +1,526 @@
-# Projeto: Medidor de Velocidade de Chute com ESP32 e Node-RED
+# ⚽ Sistema IoT de Monitoramento de Campo de Futebol
 
-## 1. 👥 Equipe Goal Breakers
+<div align="center">
 
-- Áurea Sardinha - 563837
-- Eduardo Ulisses - 566339
-- Henrique Guedes - 562474
-- Laura Tigre - 565281
-- Otávio Inaba - 565003
+![ESP32](https://img.shields.io/badge/ESP32-000000?style=for-the-badge&logo=espressif&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![MQTT](https://img.shields.io/badge/MQTT-660066?style=for-the-badge&logo=mqtt&logoColor=white)
+![FIWARE](https://img.shields.io/badge/FIWARE-FF7139?style=for-the-badge&logo=fiware&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 
----
+*Sistema completo de monitoramento de condições ambientais para campos de futebol utilizando IoT e FIWARE*
 
-## Vídeo no YouTube:
-
-https://youtu.be/JvzacxyekPY
+</div>
 
 ---
 
-## 2. Descrição do Projeto
+## 📋 Sobre o Projeto
 
-O objetivo deste projeto é criar um sistema de **medição de velocidade de um chute** utilizando dispositivos IoT e uma plataforma de gerenciamento baseada em Node-RED.
+Este projeto implementa um **sistema completo de monitoramento IoT** para campos de futebol, utilizando o microcontrolador **ESP32** para coletar dados ambientais em tempo real e determinar se as condições do campo estão adequadas para a prática esportiva. Os dados são transmitidos para uma infraestrutura em nuvem baseada na plataforma **FIWARE** hospedada na **AWS** e visualizados através de um dashboard React interativo.
 
-O projeto envolve:
+### ✨ Funcionalidades Principais
 
-- Um **ESP32** com sensor de velocidade (ex.: sensor de efeito Hall ou ultrassônico) que captura dados do movimento.
-- Um **Node-RED** que recebe os dados via **MQTT/HTTP** e processa para exibição em tempo real.
-- Visualização gráfica da velocidade e histórico de medições.
+| Funcionalidade | Descrição |
+|----------------|-----------|
+| 🌡️ **Temperatura** | Monitoramento em tempo real via sensor DHT22 |
+| 💧 **Umidade do Ar** | Controle da umidade relativa ideal para jogos |
+| 💡 **Luminosidade** | Medição das condições de iluminação do campo |
+| 🏟️ **Status do Campo** | Indicador automático se o campo está apto para jogo |
+| 🔄 **Comunicação Bidirecional** | Controle remoto de iluminação via protocolo MQTT |
+| ☁️ **Cloud Computing** | Dados processados e armazenados em infraestrutura AWS |
+| 📊 **Dashboard Interativo** | Visualização em tempo real com React + Vite |
+| 🐳 **Arquitetura FIWARE** | Uso de componentes Orion, STH-Comet e MongoDB |
 
-**Escopo do projeto:**
+### 🎯 Critérios de Aptidão do Campo
 
-- Captura de dados em tempo real do sensor de velocidade.
-- Envio dos dados via MQTT/HTTP POST para Node-RED.
-- Processamento, armazenamento temporário e visualização no dashboard do Node-RED.
+O sistema avalia automaticamente se o campo está apto para jogos baseado nos seguintes parâmetros:
 
----
+| Parâmetro | Faixa Ideal | Faixa Aceitável |
+|-----------|-------------|-----------------|
+| **Temperatura** | 15°C - 28°C | 10°C - 35°C |
+| **Umidade** | 40% - 70% | 30% - 80% |
+| **Luminosidade** | > 50% (dia) | > 30% (mínimo) |
 
-## 3. Arquitetura Proposta
-
-**Diagrama de Arquitetura:**
-
-[Sensor de Velocidade] --> [ESP32] --> (MQTT/HTTP POST) --> [Node-RED Dashboard] --> [Visualização Gráfica]
-
-**Componentes:**
-
-1. **Dispositivo IoT (ESP32)**
-
-   - Captura a velocidade do chute usando sensor.
-   - Conecta à rede Wi-Fi.
-   - Envia os dados via requisição MQTT POST para o Node-RED.
-
-2. **Backend / Plataforma Node-RED**
-
-   - Recebe os dados do ESP32.
-   - Processa e armazena temporariamente os dados.
-   - Exibe gráficos e métricas em tempo real no dashboard.
-
-3. **Frontend (Node-RED Dashboard)**
-   - Painel de visualização com gráficos de velocidade.
-   - Histórico de medições e análise simples.
+**Status do Campo:**
+- 🟢 **APTO** - Todas as condições ideais
+- 🟡 **ATENÇÃO** - Condições aceitáveis mas não ideais
+- 🔴 **INADEQUADO** - Condições fora dos limites seguros
 
 ---
 
-## 4. Recursos Necessários
+## 🏗️ Arquitetura do Sistema
 
-**Hardware:**
+### 📐 Componentes da Arquitetura
 
-- ESP32 (DevKit ou similar)
-- Sensor de velocidade (Hall Sensor, Ultrassônico ou similar)
-- Cabos e protoboard
-- Fonte de alimentação 5V
+#### **Camada de Aplicação**
+- **Dashboard React**: Visualização em tempo real das condições do campo
+- **IA & Machine Learning**: Previsão de condições futuras
+- **Mobile**: Aplicativo MyMQTT para gestores do campo
+- **BigData**: Análise histórica de dados climáticos
 
-**Software / Ferramentas:**
+#### **Camada de Backend (Docker)**
+- **Orion Context Broker** (Porta 1026): Gerenciamento de contexto em tempo real
+- **STH-Comet** (Porta 8666): Armazenamento de dados históricos
+- **MongoDB** (Porta 27017): Banco de dados NoSQL
+- **IoT Agent MQTT** (Porta 4041): Ponte entre dispositivos MQTT e FIWARE
 
-- Arduino IDE ou VSCode com PlatformIO
-- Node-RED instalado localmente ou em servidor
-- Node-RED Dashboard (`node-red-dashboard`)
-- Bibliotecas Arduino: `WiFi.h`, `HTTPClient.h`, `ArduinoJson.h`
+#### **Camada IoT**
+- **MQTT Broker** (Porta 1883): Servidor Mosquitto para comunicação
+- **ESP32**: Microcontrolador com sensores DHT22, LDR e LED
+- **Sensores**: Captação de dados ambientais do campo
+- **Atuadores**: Controle de iluminação para feedback visual
 
-**Linguagens e Frameworks:**
+### 🔄 Fluxo de Dados
 
-- C++ para ESP32
-- Node-RED para backend e dashboard (flow visual)
-- HTML/CSS/JS básico via dashboard (opcional)
+```
+┌─────────────┐
+│   ESP32     │  Coleta dados ambientais do campo
+│ (Físico ou  │  (Temperatura, Umidade, Luminosidade)
+│   Wokwi)    │
+└──────┬──────┘
+       │ MQTT Publish
+       │ Tópicos: /TEF/device001/attrs/*
+       ▼
+┌─────────────┐
+│ MQTT Broker │  Recebe dados do ESP32
+│ (Mosquitto) │  e comandos do Dashboard
+└──────┬──────┘
+       │ Porta 1883
+       ▼
+┌─────────────┐
+│ IoT Agent   │  Traduz MQTT para 
+│   MQTT      │  formato NGSI-v2
+│ (Porta 4041)│
+└──────┬──────┘
+       │ HTTP/NGSIv2
+       ▼
+┌─────────────┐
+│   Orion     │  Gerencia contexto
+│   Broker    │  em tempo real
+│ (Porta 1026)│
+└──────┬──────┘
+       │
+       ├──────────────────┐
+       │                  │
+       ▼                  ▼
+┌─────────────┐    ┌─────────────┐
+│ STH-Comet   │    │  Dashboard  │
+│ (Porta 8666)│    │   React     │
+└──────┬──────┘    └─────────────┘
+       │
+       ▼
+┌─────────────┐
+│  MongoDB    │  Armazena dados
+│ (Porta 27017)│  históricos
+└─────────────┘
+```
 
 ---
 
-## 5. Instruções de Uso
+## 🔧 Recursos Necessários
 
-### 5.1 Configuração do ESP32
+### Hardware (Físico ou Simulado)
+- ESP32
+- Sensor DHT22 (Temperatura e Umidade do ar)
+- Sensor LDR (Luminosidade/Iluminação do campo)
+- LED (Indicador visual de status)
+- Resistores (10kΩ para LDR e 330Ω para LED)
 
-1. Abra o **Arduino IDE** e configure a placa como **ESP32 Dev Module**.
-2. Instale as bibliotecas necessárias:
-   - `WiFi.h`
-   - `HTTPClient.h`
-   - `ArduinoJson.h`
-3. Configure rede e servidor no código:
+### Software e Serviços
+- **Arduino IDE**: Programação do ESP32 físico
+- **Wokwi**: Simulador online de ESP32 (alternativa)
+- **AWS EC2**: Máquina virtual na nuvem
+- **Docker & Docker Compose**: Containerização dos serviços FIWARE
+- **Postman**: Testes e configuração da API FIWARE
+- **MyMQTT**: Aplicativo mobile (Android/iOS)
+- **Node.js & npm**: Para rodar o dashboard React
 
+---
+
+## 🚀 Guia de Configuração
+
+### Passo 1: Configurar o Circuito
+
+#### 🔌 Tabela de Conexões
+
+| Componente | Pino ESP32 | Observações |
+|------------|------------|-------------|
+| **DHT22** | | |
+| VCC | 3.3V | Alimentação |
+| GND | GND | Terra |
+| DATA | GPIO 4 | Leitura de temperatura e umidade |
+| **LDR (Sensor de Luz)** | | |
+| Terminal 1 | 3.3V | Alimentação |
+| Terminal 2 | GPIO 34 (ADC) | Leitura analógica |
+| Terminal 2 | GND (via resistor 10kΩ) | Divisor de tensão |
+| **LED** | | |
+| Ânodo (+) | GPIO 2 (via resistor 330Ω) | Indicador de status |
+| Cátodo (-) | GND | Terra |
+
+#### 📝 Arquivos do Projeto
+
+Os arquivos do circuito e código estão na pasta `devices/` do repositório:
+- `sketch.ino` - Código do ESP32
+- `diagram.json` - Configuração do circuito Wokwi
+
+#### ⚙️ Configurar o Código
+
+Abra o arquivo `sketch.ino` e **ajuste as seguintes linhas**:
+
+**Para ESP32 Físico:**
 ```cpp
-const char* ssid = "SEU_SSID";
-const char* password = "SUA_SENHA";
-const char* serverURL = "http://IP_DO_NODE_RED:1880/velocidade";
+// Configure seu WiFi
+const char* SSID = "SEU_WIFI";
+const char* PASSWORD = "SUA_SENHA";
+
+// IP público da sua VM AWS
+const char* BROKER_MQTT = "SEU_IP_DA_VM_AWS";
+const int BROKER_PORT = 1883;
 ```
 
-4. Conecte o sensor ao ESP32 conforme o tipo de sensor.
+**Para Simulação no Wokwi:**
+```cpp
+// WiFi do Wokwi (já vem configurado)
+const char* SSID = "Wokwi-GUEST";
+const char* PASSWORD = "";
 
-5. Faça upload do código para o ESP32.
+// IP público da sua VM AWS
+const char* BROKER_MQTT = "SEU_IP_DA_VM_AWS";
+```
 
-### 5.2 Configuração do Node-RED
+#### 🎯 Tópicos MQTT Utilizados
 
-1. Instale o Node-RED:
+| Tópico | Tipo | Descrição |
+|--------|------|-----------|
+| `/TEF/device001/cmd` | Subscribe | Recebe comandos (LED ON/OFF) |
+| `/TEF/device001/attrs` | Publish | Estado geral do dispositivo |
+| `/TEF/device001/attrs/s` | Publish | Estado do LED (on/off) |
+| `/TEF/device001/attrs/l` | Publish | Luminosidade (0-100%) |
+| `/TEF/device001/attrs/h` | Publish | Umidade do ar (%) |
+| `/TEF/device001/attrs/t` | Publish | Temperatura (°C) |
+
+---
+
+### Passo 2: Configurar a VM AWS
+
+#### 📦 2.1 - Criar Instância EC2
+
+1. Acesse o **AWS Console**
+2. Vá para **EC2 > Launch Instance**
+3. Escolha **Ubuntu Server 22.04 LTS**
+4. Tipo: **t2.medium** ou superior (recomendado para FIWARE)
+5. Configure o **Security Group** com as seguintes portas:
+
+| Porta | Protocolo | Descrição |
+|-------|-----------|-----------|
+| 22 | TCP | SSH |
+| 1883 | TCP | MQTT Broker (Mosquitto) |
+| 1026 | TCP | Orion Context Broker |
+| 4041 | TCP | IoT Agent MQTT |
+| 8666 | TCP | STH-Comet |
+| 5173 | TCP | Dashboard React (desenvolvimento) |
+
+#### 🔗 2.2 - Conectar via SSH
 
 ```bash
-npm install -g node-red
-node-red
+ssh -i sua-chave.pem ubuntu@SEU_IP_PUBLICO
 ```
 
-2. Instale o Node-RED Dashboard:
+#### 📥 2.3 - Instalar Docker e Git
 
 ```bash
-cd ~/.node-red
-npm install node-red-dashboard
+# Atualizar o sistema
+sudo apt update && sudo apt upgrade -y
+
+# Instalar Git
+sudo apt install git -y
+
+# Instalar Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+
+# Adicionar usuário ao grupo docker
+sudo usermod -aG docker $USER
+
+# Instalar Docker Compose
+sudo apt install docker-compose -y
+
+# Reiniciar a sessão
+exit
+# Conecte novamente via SSH
 ```
 
-3. Crie um flow com os seguintes nós:
+#### 🐳 2.4 - Clonar e Executar o FIWARE
 
-- MQTT/HTTP in (rota /velocidade, método POST)
+```bash
+# Clonar o repositório FIWARE Descomplicado
+git clone https://github.com/fabiocabrini/fiware.git
 
-- json (decodifica dados do ESP32)
+# Entrar na pasta
+cd fiware
 
-- function (processa/calcula métricas, se necessário)
+# Subir os containers
+sudo docker compose up -d
 
-- ui_gauge ou ui_chart (visualização)
-
-- MQTT/HTTP response (responde ao ESP32)
-
-4. Acesse o dashboard: http://localhost:1880/ui
-
-5.3 Testando o Sistema
-
-- Ligue o ESP32.
-
-- Abra o dashboard Node-RED.
-
-- Observe a leitura da velocidade em tempo real quando o chute é realizado.
-
-6. Estrutura de Código Fonte
-
-ESP32:
-
-Node-RED:
-
-```pgsql
-/Node-RED
-└─ flow.json      # Exportação do flow completo do Node-RED
+# Verificar se os containers estão rodando
+sudo docker ps
 ```
+
+---
+
+### Passo 3: Provisionar Dispositivos no FIWARE (Postman)
+
+#### 📬 3.1 - Importar Collection no Postman
+
+1. Baixe o arquivo de collection do repositório **FIWARE Descomplicado**
+2. Abra o **Postman**
+3. Clique em **Import** e selecione o arquivo
+
+#### ✅ 3.2 - Health Check
+
+```
+GET http://SEU_IP_AWS:1026/version
+```
+
+#### 📡 3.3 - Provisionar Dispositivo
+
+Execute a requisição **Provisionar Dispositivo** com este payload:
+
+```json
+{
+  "devices": [
+    {
+      "device_id": "device001",
+      "entity_name": "urn:ngsi-ld:Device:001",
+      "entity_type": "Device",
+      "protocol": "PDI-IoTA-UltraLight",
+      "transport": "MQTT",
+      "attributes": [
+        { "object_id": "t", "name": "temperature", "type": "Float" },
+        { "object_id": "h", "name": "humidity", "type": "Float" },
+        { "object_id": "l", "name": "luminosity", "type": "Float" },
+        { "object_id": "s", "name": "status", "type": "Text" }
+      ],
+      "commands": [
+        { "name": "on", "type": "command" },
+        { "name": "off", "type": "command" }
+      ]
+    }
+  ]
+}
+```
+
+#### 📝 3.4 - Registrar Comandos e Subscrição
+
+Execute as requisições:
+- **Registrar Comando ON**
+- **Registrar Comando OFF**
+- **Criar Subscription** (para STH-Comet)
+
+#### 🧪 3.5 - Testar Leitura de Dados
+
+Com o ESP32 rodando:
+
+```
+GET http://SEU_IP_AWS:1026/v2/entities/urn:ngsi-ld:Device:001
+```
+
+---
+
+### Passo 4: Dashboard React
+
+Agora vamos criar o dashboard para visualizar se o campo está apto!
+
+O dashboard está em um artifact separado abaixo com instruções de instalação.
+
+---
+
+### Passo 5: Configurar o Aplicativo MyMQTT (Opcional)
+
+#### 📱 5.1 - Instalar o MyMQTT
+
+- **Android**: [Play Store](https://play.google.com/store/apps/details?id=at.tripwire.mqtt.client)
+- **iOS**: [App Store](https://apps.apple.com/app/mymqtt/id1529660475)
+
+#### 🔗 5.2 - Configurar Conexão
+
+1. **Host**: `SEU_IP_DA_VM_AWS`
+2. **Porta**: `1883`
+3. **Conectar**
+
+#### 📊 5.3 - Subscrever aos Tópicos
+
+| Tópico | Descrição |
+|--------|-----------|
+| `/TEF/device001/attrs/t` | Temperatura |
+| `/TEF/device001/attrs/h` | Umidade |
+| `/TEF/device001/attrs/l` | Luminosidade |
+| `/TEF/device001/attrs/s` | Status LED |
+
+#### 🎛️ 5.4 - Controlar o LED
+
+- **Topic**: `/TEF/device001/cmd`
+- **Message**: `device001@on|` ou `device001@off|`
+
+---
+
+## 📊 Interpretação dos Dados
+
+### 🌡️ Temperatura
+
+| Faixa | Status | Descrição |
+|-------|--------|-----------|
+| < 10°C | 🔴 Inadequado | Muito frio - risco de lesões musculares |
+| 10°C - 15°C | 🟡 Atenção | Frio - aquecimento prolongado necessário |
+| 15°C - 28°C | 🟢 Ideal | Condições ideais para prática esportiva |
+| 28°C - 35°C | 🟡 Atenção | Calor - hidratação reforçada necessária |
+| > 35°C | 🔴 Inadequado | Muito quente - risco de insolação |
+
+### 💧 Umidade
+
+| Faixa | Status | Descrição |
+|-------|--------|-----------|
+| < 30% | 🔴 Inadequado | Ar muito seco - desconforto respiratório |
+| 30% - 40% | 🟡 Atenção | Ar seco - hidratação reforçada |
+| 40% - 70% | 🟢 Ideal | Umidade ideal para jogos |
+| 70% - 80% | 🟡 Atenção | Ar úmido - sensação de abafamento |
+| > 80% | 🔴 Inadequado | Muito úmido - dificuldade de transpiração |
+
+### 💡 Luminosidade
+
+| Faixa | Status | Descrição |
+|-------|--------|-----------|
+| < 30% | 🔴 Inadequado | Iluminação insuficiente |
+| 30% - 50% | 🟡 Atenção | Iluminação aceitável (jogos noturnos) |
+| > 50% | 🟢 Ideal | Ótima visibilidade |
+
+---
+
+## 🔍 Troubleshooting
+
+### ❌ ESP32 não conecta ao broker MQTT
+
+```bash
+# Verificar se o Mosquitto está rodando
+sudo docker ps | grep mosquitto
+
+# Verificar logs do container
+sudo docker logs mosquitto-mqtt
+
+# Testar conexão
+telnet SEU_IP_AWS 1883
+```
+
+### ❌ Dashboard não recebe dados
+
+- Verifique se o Orion está respondendo: `http://SEU_IP_AWS:1026/version`
+- Confirme que o ESP32 está publicando dados (Serial Monitor)
+- Verifique o console do navegador (F12) para erros de CORS
+
+### ❌ DHT22 retorna valores estranhos
+
+- Adicione resistor pull-up de 10kΩ entre DATA e VCC
+- Aguarde 2-3 segundos após ligar para estabilizar
+- Verifique as conexões do sensor
+
+---
+
+## 📚 Estrutura do Repositório
+
+```
+📦 projeto-campo-futebol-iot/
+├── 📁 devices/
+│   ├── sketch.ino          # Código do ESP32
+│   └── diagram.json        # Circuito Wokwi
+├── 📁 dashboard/
+│   ├── src/
+│   │   ├── App.jsx
+│   │   └── components/
+│   ├── package.json
+│   └── vite.config.js
+├── 📁 postman/
+│   └── fiware-collection.json
+├── 📄 README.md
+└── 📄 LICENSE
+```
+
+---
+
+## 🎯 Casos de Uso
+
+### ⚽ Gestores de Campos Esportivos
+- Monitoramento em tempo real das condições do campo
+- Decisão informada sobre liberação para jogos
+- Histórico de condições ambientais
+
+### 🏟️ Organizadores de Eventos
+- Planejamento de partidas baseado em previsões
+- Garantia de segurança dos atletas
+- Cumprimento de normas de segurança esportiva
+
+### 📊 Análise de Dados
+- Identificação de padrões climáticos
+- Otimização de horários para jogos
+- Manutenção preventiva baseada em dados
+
+---
+
+## 📈 Próximas Melhorias
+
+- [ ] Sensor de umidade do solo (condição do gramado)
+- [ ] Anemômetro (velocidade do vento)
+- [ ] Pluviômetro (medição de chuva)
+- [ ] Alertas via Telegram/WhatsApp
+- [ ] Integração com previsão do tempo
+- [ ] Machine Learning para previsão de condições
+- [ ] API REST para integração com outros sistemas
+- [ ] App mobile nativo (iOS/Android)
+
+---
+
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas! Sinta-se à vontade para:
+
+- 🐛 Reportar bugs
+- 💡 Sugerir melhorias
+- 📖 Melhorar a documentação
+- 🔧 Enviar pull requests
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT.
+
+---
+
+## 👨‍💻 Autor
+
+**[Seu Nome]**
+
+- GitHub: [@seu-usuario](https://github.com/seu-usuario)
+- LinkedIn: [Seu Perfil](https://linkedin.com/in/seu-perfil)
+
+---
+
+## 📚 Referências
+
+- [FIWARE Documentation](https://fiware.org/)
+- [FIWARE Descomplicado](https://github.com/fabiocabrini/fiware)
+- [ESP32 Documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/)
+- [MQTT Protocol](https://mqtt.org/)
+- [React Documentation](https://react.dev/)
+- [Vite Documentation](https://vitejs.dev/)
+
+---
+
+<div align="center">
+
+### ⭐ Se este projeto foi útil, considere dar uma estrela!
+
+**Feito com ❤️ para a comunidade esportiva e IoT**
+
+⚽ *"Tecnologia garantindo as melhores condições para o esporte"*
+
+</div>
