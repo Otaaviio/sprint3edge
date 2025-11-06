@@ -1,413 +1,175 @@
-# ⚽ Sistema IoT de Monitoramento de Campo de Futebol
+# 🏟️ Sistema IoT de Monitoramento para Campos de Futebol
 
-<div align="center">
+> Sistema completo de monitoramento de condições ambientais utilizando ESP32, FIWARE e Dashboard React
 
-![ESP32](https://img.shields.io/badge/ESP32-000000?style=for-the-badge&logo=espressif&logoColor=white)
-![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
-![MQTT](https://img.shields.io/badge/MQTT-660066?style=for-the-badge&logo=mqtt&logoColor=white)
-![FIWARE](https://img.shields.io/badge/FIWARE-FF7139?style=for-the-badge&logo=fiware&logoColor=white)
-![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![FIWARE](https://img.shields.io/badge/FIWARE-Enabled-blue)](https://www.fiware.org/)
+[![AWS](https://img.shields.io/badge/Cloud-AWS-orange)](https://aws.amazon.com/)
 
-_Sistema completo de monitoramento de condições ambientais para campos de futebol utilizando IoT e FIWARE_
+## 👥 Equipe
 
-</div>
+| Nome            | RM     |
+| --------------- | ------ |
+| Áurea Sardinha  | 563837 |
+| Eduardo Ulisses | 566339 |
+| Henrique Guedes | 562474 |
+| Laura Tigre     | 565281 |
+| Otávio Inaba    | 565003 |
 
 ---
 
-## 📋 Sobre o Projeto
+## 💡 Sobre o Projeto
 
-Este projeto implementa um **sistema completo de monitoramento IoT** para campos de futebol, utilizando o microcontrolador **ESP32** para coletar dados ambientais em tempo real e determinar se as condições do campo estão adequadas para a prática esportiva. Os dados são transmitidos para uma infraestrutura em nuvem baseada na plataforma **FIWARE** hospedada na **AWS** e visualizados através de um dashboard React interativo.
+Sistema IoT que monitora em tempo real as condições ambientais de campos de futebol (temperatura, umidade e luminosidade) para determinar se estão aptos para jogos, garantindo segurança dos atletas e conformidade com normas esportivas.
 
 ### ✨ Funcionalidades Principais
 
-| Funcionalidade                  | Descrição                                             |
-| ------------------------------- | ----------------------------------------------------- |
-| 🌡️ **Temperatura**              | Monitoramento em tempo real via sensor DHT22          |
-| 💧 **Umidade do Ar**            | Controle da umidade relativa ideal para jogos         |
-| 💡 **Luminosidade**             | Medição das condições de iluminação do campo          |
-| 🏟️ **Status do Campo**          | Indicador automático se o campo está apto para jogo   |
-| 🔄 **Comunicação Bidirecional** | Controle remoto de iluminação via protocolo MQTT      |
-| ☁️ **Cloud Computing**          | Dados processados e armazenados em infraestrutura AWS |
-| 📊 **Dashboard Interativo**     | Visualização em tempo real com React + Vite           |
-| 🐳 **Arquitetura FIWARE**       | Uso de componentes Orion, STH-Comet e MongoDB         |
-
-### 🎯 Critérios de Aptidão do Campo
-
-O sistema avalia automaticamente se o campo está apto para jogos baseado nos seguintes parâmetros:
-
-| Parâmetro        | Faixa Ideal | Faixa Aceitável |
-| ---------------- | ----------- | --------------- |
-| **Temperatura**  | 15°C - 28°C | 10°C - 35°C     |
-| **Umidade**      | 40% - 70%   | 30% - 80%       |
-| **Luminosidade** | > 50% (dia) | > 30% (mínimo)  |
-
-**Status do Campo:**
-
-- 🟢 **APTO** - Todas as condições ideais
-- 🟡 **ATENÇÃO** - Condições aceitáveis mas não ideais
-- 🔴 **INADEQUADO** - Condições fora dos limites seguros
+| Recurso                  | Descrição                                   |
+| ------------------------ | ------------------------------------------- |
+| 🌡️ **Temperatura**       | Monitoramento via DHT22 (15-28°C ideal)     |
+| 💧 **Umidade**           | Controle de umidade relativa (40-70% ideal) |
+| 💡 **Luminosidade**      | Medição de iluminação via LDR (>50% ideal)  |
+| 🚦 **Status Automático** | 🟢 Apto / 🟡 Atenção / 🔴 Inadequado        |
+| 🔄 **Controle Remoto**   | Comandos MQTT bidirecionais                 |
+| 📊 **Dashboard**         | Visualização React em tempo real            |
 
 ---
 
-## 🏗️ Arquitetura do Sistema
+## 🎥 Demonstração
 
-<div style="max-width: 800px;">
-  <img src="docs/arquitetura.png" alt="Arquitetura do Sistema" width="60%"/>
-</div>
+### Vídeo Completo da Solução
 
-### 📐 Componentes da Arquitetura
-
-#### **Camada de Aplicação**
-
-- **Dashboard React**: Visualização em tempo real das condições do campo
-- **IA & Machine Learning**: Previsão de condições futuras
-- **Mobile**: Aplicativo MyMQTT para gestores do campo
-- **BigData**: Análise histórica de dados climáticos
-
-#### **Camada de Backend (Docker)**
-
-- **Orion Context Broker** (Porta 1026): Gerenciamento de contexto em tempo real
-- **STH-Comet** (Porta 8666): Armazenamento de dados históricos
-- **MongoDB** (Porta 27017): Banco de dados NoSQL
-- **IoT Agent MQTT** (Porta 4041): Ponte entre dispositivos MQTT e FIWARE
-
-#### **Camada IoT**
-
-- **MQTT Broker** (Porta 1883): Servidor Mosquitto para comunicação
-- **ESP32**: Microcontrolador com sensores DHT22, LDR e LED
-- **Sensores**: Captação de dados ambientais do campo
-- **Atuadores**: Controle de iluminação para feedback visual
+> 🎬 **[Assistir demonstração no YouTube](LINK_DO_VIDEO)**
 
 ---
 
-## 🔧 Recursos Necessários
+## 🎯 Resultados da PoC
 
-### Hardware (Físico ou Simulado)
+### ✅ Cenários Validados
 
-- ESP32
-- Sensor DHT22 (Temperatura e Umidade do ar)
-- Sensor LDR (Luminosidade/Iluminação do campo)
-- LED (Indicador visual de status)
-- Resistores (10kΩ para LDR e 330Ω para LED)
+| #   | Cenário                   | Status         | Evidência                     |
+| --- | ------------------------- | -------------- | ----------------------------- |
+| 1   | Coleta e transmissão MQTT | ✅ Funcionando | [Vídeo 00:30](LINK#timestamp) |
+| 2   | Processamento FIWARE      | ✅ Funcionando | [Vídeo 01:15](LINK#timestamp) |
+| 3   | Dashboard em tempo real   | ✅ Funcionando | [Vídeo 02:00](LINK#timestamp) |
+| 4   | Comandos bidirecionais    | ✅ Funcionando | [Vídeo 03:30](LINK#timestamp) |
+| 5   | Persistência histórica    | ✅ Funcionando | [Vídeo 04:00](LINK#timestamp) |
 
-### Software e Serviços
+### 📊 Métricas Obtidas
 
-- **Arduino IDE**: Programação do ESP32 físico
-- **Wokwi**: Simulador online de ESP32 (alternativa)
-- **AWS EC2**: Máquina virtual na nuvem
-- **Docker & Docker Compose**: Containerização dos serviços FIWARE
-- **Postman**: Testes e configuração da API FIWARE
-- **MyMQTT**: Aplicativo mobile (Android/iOS)
-- **Node.js & npm**: Para rodar o dashboard React
+```
+Latência média:        2-3 segundos (ESP32 → Dashboard)
+Taxa de perda:         < 1%
+Uptime infraestrutura: 99.9%
+Precisão DHT22:        ±0.5°C / ±2% umidade
+```
 
----
+### 🏆 Conclusões
 
-## 🎯 RESULTADOS DA PROOF OF CONCEPT (POC)
-
-### Objetivo da PoC
-
-Validar a comunicação end-to-end entre dispositivos IoT (ESP32), plataforma FIWARE e interface de visualização (Dashboard React), demonstrando o funcionamento completo da arquitetura em tempo real.
-
-### Cenários Testados
-
-#### ✅ 1. Coleta e Transmissão de Dados
-#### ✅ 2. Processamento na Nuvem (FIWARE)
-#### ✅ 3. Visualização em Tempo Real
-#### ✅ 4. Comunicação Bidirecional (Comandos)
-#### ✅ 5. Persistência de Dados Históricos
-
-### Métricas Obtidas
-
-- **Latência média**: ~2-3 segundos (ESP32 → FIWARE → Dashboard)
-- **Taxa de perda de pacotes**: < 1%
-- **Uptime da infraestrutura**: 99.9% durante os testes
-- **Precisão do DHT22**: ±0.5°C (temperatura) / ±2% (umidade)
-
-### Integração com Tecnologias Complementares
-
-### Conclusões da PoC
-
-**Arquitetura validada**: Comunicação MQTT funcionando perfeitamente
-
-**Escalabilidade confirmada**: Sistema suporta múltiplos dispositivos
-
-**Latência aceitável**: Tempo de resposta adequado para aplicação
-
-**Dados confiáveis**: Sensores entregando leituras precisas
-
-**Interface intuitiva**: Dashboard responsivo e fácil de usar
-
-
-### Vídeo Demonstrativo Completo
-
-🎥 **[Assistir demonstração completa da solução](link-do-video)**
+- ✅ Arquitetura MQTT + FIWARE validada
+- ✅ Sistema pronto para produção
+- ✅ Escalável para múltiplos campos
+- ✅ Interface intuitiva e responsiva
 
 ---
 
-## 🚀 Guia de Configuração
+## 🏗️ Arquitetura
 
-### Passo 1: Configurar o Circuito
+![Arquitetura do Sistema](./docs/arquitetura/architecture-diagram.png)
 
-#### 🔌 Tabela de Conexões
+### 🐳 Componentes FIWARE (AWS EC2)
 
-| Componente              | Pino ESP32                 | Observações                      |
-| ----------------------- | -------------------------- | -------------------------------- |
-| **DHT22**               |                            |                                  |
-| VCC                     | 3.3V                       | Alimentação                      |
-| GND                     | GND                        | Terra                            |
-| DATA                    | GPIO 4                     | Leitura de temperatura e umidade |
-| **LDR (Sensor de Luz)** |                            |                                  |
-| Terminal 1              | 3.3V                       | Alimentação                      |
-| Terminal 2              | GPIO 34 (ADC)              | Leitura analógica                |
-| Terminal 2              | GND (via resistor 10kΩ)    | Divisor de tensão                |
-| **LED**                 |                            |                                  |
-| Ânodo (+)               | GPIO 2 (via resistor 330Ω) | Indicador de status              |
-| Cátodo (-)              | GND                        | Terra                            |
+| Componente           | Porta | Função                    |
+| -------------------- | ----- | ------------------------- |
+| Orion Context Broker | 1026  | Gerenciamento de contexto |
+| STH-Comet            | 8666  | Dados históricos          |
+| IoT Agent MQTT       | 4041  | Ponte MQTT ↔ FIWARE       |
+| Mosquitto Broker     | 1883  | Servidor MQTT             |
+| MongoDB              | 27017 | Banco de dados            |
 
-#### 📝 Arquivos do Projeto
+---
 
-Os arquivos do circuito e código estão na pasta `devices/` do repositório:
+## 🛠️ Tecnologias
 
-- `sketch.ino` - Código do ESP32
-- `diagram.json` - Configuração do circuito Wokwi
+### Hardware
 
-#### ⚙️ Configurar o Código
+- **ESP32** (Wokwi ou físico)
+- **DHT22** - Temperatura/Umidade
+- **LDR** - Luminosidade
+- **LED** - Indicador visual
 
-Abra o arquivo `sketch.ino` e **ajuste as seguintes linhas**:
+### Software
 
-**Para ESP32 Físico:**
+- **FIWARE** - Plataforma IoT
+- **MQTT** - Protocolo de comunicação
+- **React + Vite** - Dashboard
+- **Docker** - Containerização
+- **AWS EC2** - Cloud hosting
+
+---
+
+## 🚀 Quick Start
+
+### 1️⃣ Clone o Repositório
+
+```bash
+git clone https://github.com/Otaaviio/sprint3edge.git
+cd sprint3edge
+```
+
+### 2️⃣ Configure a Infraestrutura FIWARE
+
+```bash
+# Na sua VM AWS (Ubuntu 22.04)
+git clone https://github.com/fabiocabrini/fiware.git
+cd fiware
+sudo docker compose up -d
+```
+
+### 3️⃣ Configure o ESP32
 
 ```cpp
-// Configure seu WiFi
+// Em devices/sketch.ino, ajuste:
+const char* BROKER_MQTT = "SEU_IP_AWS";
 const char* SSID = "SEU_WIFI";
 const char* PASSWORD = "SUA_SENHA";
-
-// IP público da sua VM AWS
-const char* BROKER_MQTT = "SEU_IP_DA_VM_AWS";
-const int BROKER_PORT = 1883;
 ```
 
-**Para Simulação no Wokwi:**
-
-```cpp
-// WiFi do Wokwi (já vem configurado)
-const char* SSID = "Wokwi-GUEST";
-const char* PASSWORD = "";
-
-// IP público da sua VM AWS
-const char* BROKER_MQTT = "SEU_IP_DA_VM_AWS";
-```
-
-#### 🎯 Tópicos MQTT Utilizados
-
-| Tópico                   | Tipo      | Descrição                    |
-| ------------------------ | --------- | ---------------------------- |
-| `/TEF/device001/cmd`     | Subscribe | Recebe comandos (LED ON/OFF) |
-| `/TEF/device001/attrs`   | Publish   | Estado geral do dispositivo  |
-| `/TEF/device001/attrs/s` | Publish   | Estado do LED (on/off)       |
-| `/TEF/device001/attrs/l` | Publish   | Luminosidade (0-100%)        |
-| `/TEF/device001/attrs/h` | Publish   | Umidade do ar (%)            |
-| `/TEF/device001/attrs/t` | Publish   | Temperatura (°C)             |
-
----
-
-### Passo 2: Configurar a VM AWS
-
-#### 📦 2.1 - Criar Instância EC2
-
-1. Acesse o **AWS Console**
-2. Vá para **EC2 > Launch Instance**
-3. Escolha **Ubuntu Server 22.04 LTS**
-4. Tipo: **t2.medium** ou superior (recomendado para FIWARE)
-5. Configure o **Security Group** com as seguintes portas:
-
-| Porta | Protocolo | Descrição                         |
-| ----- | --------- | --------------------------------- |
-| 22    | TCP       | SSH                               |
-| 1883  | TCP       | MQTT Broker (Mosquitto)           |
-| 1026  | TCP       | Orion Context Broker              |
-| 4041  | TCP       | IoT Agent MQTT                    |
-| 8666  | TCP       | STH-Comet                         |
-| 5173  | TCP       | Dashboard React (desenvolvimento) |
-
-#### 🔗 2.2 - Conectar via SSH
+### 4️⃣ Execute o Dashboard
 
 ```bash
-ssh -i sua-chave.pem ubuntu@SEU_IP_PUBLICO
+cd dashboard
+npm install
+npm run dev
 ```
 
-#### 📥 2.3 - Instalar Docker e Git
+### 5️⃣ Provisione o Dispositivo
 
-```bash
-# Atualizar o sistema
-sudo apt update && sudo apt upgrade -y
+Use o Postman com a collection do FIWARE Descomplicado:
 
-# Instalar Git
-sudo apt install git -y
-
-# Instalar Docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-
-# Adicionar usuário ao grupo docker
-sudo usermod -aG docker $USER
-
-# Instalar Docker Compose
-sudo apt install docker-compose -y
-
-# Reiniciar a sessão
-exit
-# Conecte novamente via SSH
-```
-
-#### 🐳 2.4 - Clonar e Executar o FIWARE
-
-```bash
-# Clonar o repositório FIWARE Descomplicado
-git clone https://github.com/fabiocabrini/fiware.git
-
-# Entrar na pasta
-cd fiware
-
-# Subir os containers
-sudo docker compose up -d
-
-# Verificar se os containers estão rodando
-sudo docker ps
-```
+- Importe a collection
+- Execute "Provisionar Dispositivo"
+- Registre os comandos ON/OFF
 
 ---
 
-### Passo 3: Provisionar Dispositivos no FIWARE (Postman)
+## 📚 Documentação Completa
 
-#### 📬 3.1 - Importar Collection no Postman
+### 📁 Guias Técnicos
 
-1. Baixe o arquivo de collection do repositório **FIWARE Descomplicado**
-2. Abra o **Postman**
-3. Clique em **Import** e selecione o arquivo
+- **[Instalação Detalhada](./docs/INSTALLATION.md)** - Setup completo passo a passo
+- **[Configuração ESP32](./docs/ESP32-SETUP.md)** - Pinout, código e WiFi
+- **[Configuração FIWARE](./docs/FIWARE-SETUP.md)** - Docker, Postman e APIs
+- **[Dashboard React](./docs/DASHBOARD.md)** - Frontend e integração
+- **[Protocolo MQTT](./docs/MQTT-PROTOCOL.md)** - Tópicos e payloads
 
-#### ✅ 3.2 - Health Check
+### 🔧 Referências
 
-```
-GET http://SEU_IP_AWS:1026/version
-```
+- **[Troubleshooting](./docs/TROUBLESHOOTING.md)** - Resolução de problemas
+- **[API Reference](./docs/API-REFERENCE.md)** - Endpoints FIWARE
+- **[Resultados da PoC](./docs/POC-RESULTS.md)** - Análise completa
 
-#### 📡 3.3 - Provisionar Dispositivo
-
-Execute a requisição **Provisionar Dispositivo** com este payload:
-
-```json
-{
-  "devices": [
-    {
-      "device_id": "device001",
-      "entity_name": "urn:ngsi-ld:Device:001",
-      "entity_type": "Device",
-      "protocol": "PDI-IoTA-UltraLight",
-      "transport": "MQTT",
-      "attributes": [
-        { "object_id": "t", "name": "temperature", "type": "Float" },
-        { "object_id": "h", "name": "humidity", "type": "Float" },
-        { "object_id": "l", "name": "luminosity", "type": "Float" },
-        { "object_id": "s", "name": "status", "type": "Text" }
-      ],
-      "commands": [
-        { "name": "on", "type": "command" },
-        { "name": "off", "type": "command" }
-      ]
-    }
-  ]
-}
-```
-
-#### 📝 3.4 - Registrar Comandos e Subscrição
-
-Execute as requisições:
-
-- **Registrar Comando ON**
-- **Registrar Comando OFF**
-- **Criar Subscription** (para STH-Comet)
-
-#### 🧪 3.5 - Testar Leitura de Dados
-
-Com o ESP32 rodando:
-
-```
-GET http://SEU_IP_AWS:1026/v2/entities/urn:ngsi-ld:Device:001
-```
-
----
-
-### Passo 4: Dashboard React
-
-Agora vamos criar o dashboard para visualizar se o campo está apto!
-
-O dashboard está em um artifact separado abaixo com instruções de instalação.
-
----
-
-### Passo 5: Configurar o Aplicativo MyMQTT (Opcional)
-
-#### 📱 5.1 - Instalar o MyMQTT
-
-- **Android**: [Play Store](https://play.google.com/store/apps/details?id=at.tripwire.mqtt.client)
-- **iOS**: [App Store](https://apps.apple.com/app/mymqtt/id1529660475)
-
-#### 🔗 5.2 - Configurar Conexão
-
-1. **Host**: `SEU_IP_DA_VM_AWS`
-2. **Porta**: `1883`
-3. **Conectar**
-
-#### 📊 5.3 - Subscrever aos Tópicos
-
-| Tópico                   | Descrição    |
-| ------------------------ | ------------ |
-| `/TEF/device001/attrs/t` | Temperatura  |
-| `/TEF/device001/attrs/h` | Umidade      |
-| `/TEF/device001/attrs/l` | Luminosidade |
-| `/TEF/device001/attrs/s` | Status LED   |
-
-#### 🎛️ 5.4 - Controlar o LED
-
-- **Topic**: `/TEF/device001/cmd`
-- **Message**: `device001@on|` ou `device001@off|`
-
----
-
-## 📊 Interpretação dos Dados
-
-### 🌡️ Temperatura
-
-| Faixa       | Status        | Descrição                                |
-| ----------- | ------------- | ---------------------------------------- |
-| < 10°C      | 🔴 Inadequado | Muito frio - risco de lesões musculares  |
-| 10°C - 15°C | 🟡 Atenção    | Frio - aquecimento prolongado necessário |
-| 15°C - 28°C | 🟢 Ideal      | Condições ideais para prática esportiva  |
-| 28°C - 35°C | 🟡 Atenção    | Calor - hidratação reforçada necessária  |
-| > 35°C      | 🔴 Inadequado | Muito quente - risco de insolação        |
-
-### 💧 Umidade
-
-| Faixa     | Status        | Descrição                                 |
-| --------- | ------------- | ----------------------------------------- |
-| < 30%     | 🔴 Inadequado | Ar muito seco - desconforto respiratório  |
-| 30% - 40% | 🟡 Atenção    | Ar seco - hidratação reforçada            |
-| 40% - 70% | 🟢 Ideal      | Umidade ideal para jogos                  |
-| 70% - 80% | 🟡 Atenção    | Ar úmido - sensação de abafamento         |
-| > 80%     | 🔴 Inadequado | Muito úmido - dificuldade de transpiração |
-
-### 💡 Luminosidade
-
-| Faixa     | Status        | Descrição                             |
-| --------- | ------------- | ------------------------------------- |
-| < 30%     | 🔴 Inadequado | Iluminação insuficiente               |
-| 30% - 50% | 🟡 Atenção    | Iluminação aceitável (jogos noturnos) |
-| > 50%     | 🟢 Ideal      | Ótima visibilidade                    |
-
----
-
-## 📚 Estrutura do Repositório
+### 📦 Estrutura do Projeto
 
 ```
 📦 projeto-campo-futebol-iot/
@@ -416,62 +178,28 @@ O dashboard está em um artifact separado abaixo com instruções de instalaçã
 │   └── diagram.json        # Circuito Wokwi
 ├── 📁 dashboard/
 │   ├── src/
-│   │   ├── App.jsx
-│   │   └── components/
-│   ├── package.json
-│   └── vite.config.js
+│   │   ├── App.jsx         # Componente principal
+│   │   └── components/     # Componentes React
+│   └── package.json
 ├── 📁 docs/
-│   └── arquitetura.pdf
+│   ├── images/             # Screenshots e diagramas
+│   ├── tutorial.md          # Tutoriais e guias
+│   └── arquitetura         # Documentação da arquitetura
 ├── 📄 README.md
 └── 📄 LICENSE
 ```
 
 ---
 
-## 🎯 Casos de Uso
-
-### ⚽ Gestores de Campos Esportivos
-
-- Monitoramento em tempo real das condições do campo
-- Decisão informada sobre liberação para jogos
-- Histórico de condições ambientais
-
-### 🏟️ Organizadores de Eventos
-
-- Planejamento de partidas baseado em previsões
-- Garantia de segurança dos atletas
-- Cumprimento de normas de segurança esportiva
-
-### 📊 Análise de Dados
-
-- Identificação de padrões climáticos
-- Otimização de horários para jogos
-- Manutenção preventiva baseada em dados
-
----
-
 ## 📄 Licença
 
-Este projeto está sob a licença MIT.
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
-## 👥 Equipe Goal Breakers
+## 🔗 Links Úteis
 
-- **Áurea Sardinha - 563837**
-- **Eduardo Ulisses - 566339**
-- **Henrique Guedes - 562474**
-- **Laura Tigre - 565281**
-- **Otávio Inaba - 565003**
-
----
-
-<div align="center">
-
-### ⭐ Se este projeto foi útil, considere dar uma estrela!
-
-**Feito com ❤️ para a comunidade esportiva e IoT**
-
-⚽ _"Tecnologia garantindo as melhores condições para o esporte"_
-
-</div>
+- [FIWARE Documentation](https://fiware.org/)
+- [FIWARE Descomplicado](https://github.com/fabiocabrini/fiware)
+- [ESP32 Documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/)
+- [MQTT Protocol](https://mqtt.org/)
