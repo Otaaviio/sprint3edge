@@ -8,7 +8,7 @@
 ![FIWARE](https://img.shields.io/badge/FIWARE-FF7139?style=for-the-badge&logo=fiware&logoColor=white)
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 
-*Sistema completo de monitoramento de condições ambientais para campos de futebol utilizando IoT e FIWARE*
+_Sistema completo de monitoramento de condições ambientais para campos de futebol utilizando IoT e FIWARE_
 
 </div>
 
@@ -20,28 +20,29 @@ Este projeto implementa um **sistema completo de monitoramento IoT** para campos
 
 ### ✨ Funcionalidades Principais
 
-| Funcionalidade | Descrição |
-|----------------|-----------|
-| 🌡️ **Temperatura** | Monitoramento em tempo real via sensor DHT22 |
-| 💧 **Umidade do Ar** | Controle da umidade relativa ideal para jogos |
-| 💡 **Luminosidade** | Medição das condições de iluminação do campo |
-| 🏟️ **Status do Campo** | Indicador automático se o campo está apto para jogo |
-| 🔄 **Comunicação Bidirecional** | Controle remoto de iluminação via protocolo MQTT |
-| ☁️ **Cloud Computing** | Dados processados e armazenados em infraestrutura AWS |
-| 📊 **Dashboard Interativo** | Visualização em tempo real com React + Vite |
-| 🐳 **Arquitetura FIWARE** | Uso de componentes Orion, STH-Comet e MongoDB |
+| Funcionalidade                  | Descrição                                             |
+| ------------------------------- | ----------------------------------------------------- |
+| 🌡️ **Temperatura**              | Monitoramento em tempo real via sensor DHT22          |
+| 💧 **Umidade do Ar**            | Controle da umidade relativa ideal para jogos         |
+| 💡 **Luminosidade**             | Medição das condições de iluminação do campo          |
+| 🏟️ **Status do Campo**          | Indicador automático se o campo está apto para jogo   |
+| 🔄 **Comunicação Bidirecional** | Controle remoto de iluminação via protocolo MQTT      |
+| ☁️ **Cloud Computing**          | Dados processados e armazenados em infraestrutura AWS |
+| 📊 **Dashboard Interativo**     | Visualização em tempo real com React + Vite           |
+| 🐳 **Arquitetura FIWARE**       | Uso de componentes Orion, STH-Comet e MongoDB         |
 
 ### 🎯 Critérios de Aptidão do Campo
 
 O sistema avalia automaticamente se o campo está apto para jogos baseado nos seguintes parâmetros:
 
-| Parâmetro | Faixa Ideal | Faixa Aceitável |
-|-----------|-------------|-----------------|
-| **Temperatura** | 15°C - 28°C | 10°C - 35°C |
-| **Umidade** | 40% - 70% | 30% - 80% |
-| **Luminosidade** | > 50% (dia) | > 30% (mínimo) |
+| Parâmetro        | Faixa Ideal | Faixa Aceitável |
+| ---------------- | ----------- | --------------- |
+| **Temperatura**  | 15°C - 28°C | 10°C - 35°C     |
+| **Umidade**      | 40% - 70%   | 30% - 80%       |
+| **Luminosidade** | > 50% (dia) | > 30% (mínimo)  |
 
 **Status do Campo:**
+
 - 🟢 **APTO** - Todas as condições ideais
 - 🟡 **ATENÇÃO** - Condições aceitáveis mas não ideais
 - 🔴 **INADEQUADO** - Condições fora dos limites seguros
@@ -50,76 +51,39 @@ O sistema avalia automaticamente se o campo está apto para jogos baseado nos se
 
 ## 🏗️ Arquitetura do Sistema
 
+<div style="max-width: 800px;">
+  <img src="docs/arquitetura.png" alt="Arquitetura do Sistema" width="60%"/>
+</div>
+
 ### 📐 Componentes da Arquitetura
 
 #### **Camada de Aplicação**
+
 - **Dashboard React**: Visualização em tempo real das condições do campo
 - **IA & Machine Learning**: Previsão de condições futuras
 - **Mobile**: Aplicativo MyMQTT para gestores do campo
 - **BigData**: Análise histórica de dados climáticos
 
 #### **Camada de Backend (Docker)**
+
 - **Orion Context Broker** (Porta 1026): Gerenciamento de contexto em tempo real
 - **STH-Comet** (Porta 8666): Armazenamento de dados históricos
 - **MongoDB** (Porta 27017): Banco de dados NoSQL
 - **IoT Agent MQTT** (Porta 4041): Ponte entre dispositivos MQTT e FIWARE
 
 #### **Camada IoT**
+
 - **MQTT Broker** (Porta 1883): Servidor Mosquitto para comunicação
 - **ESP32**: Microcontrolador com sensores DHT22, LDR e LED
 - **Sensores**: Captação de dados ambientais do campo
 - **Atuadores**: Controle de iluminação para feedback visual
-
-### 🔄 Fluxo de Dados
-
-```
-┌─────────────┐
-│   ESP32     │  Coleta dados ambientais do campo
-│ (Físico ou  │  (Temperatura, Umidade, Luminosidade)
-│   Wokwi)    │
-└──────┬──────┘
-       │ MQTT Publish
-       │ Tópicos: /TEF/device001/attrs/*
-       ▼
-┌─────────────┐
-│ MQTT Broker │  Recebe dados do ESP32
-│ (Mosquitto) │  e comandos do Dashboard
-└──────┬──────┘
-       │ Porta 1883
-       ▼
-┌─────────────┐
-│ IoT Agent   │  Traduz MQTT para 
-│   MQTT      │  formato NGSI-v2
-│ (Porta 4041)│
-└──────┬──────┘
-       │ HTTP/NGSIv2
-       ▼
-┌─────────────┐
-│   Orion     │  Gerencia contexto
-│   Broker    │  em tempo real
-│ (Porta 1026)│
-└──────┬──────┘
-       │
-       ├──────────────────┐
-       │                  │
-       ▼                  ▼
-┌─────────────┐    ┌─────────────┐
-│ STH-Comet   │    │  Dashboard  │
-│ (Porta 8666)│    │   React     │
-└──────┬──────┘    └─────────────┘
-       │
-       ▼
-┌─────────────┐
-│  MongoDB    │  Armazena dados
-│ (Porta 27017)│  históricos
-└─────────────┘
-```
 
 ---
 
 ## 🔧 Recursos Necessários
 
 ### Hardware (Físico ou Simulado)
+
 - ESP32
 - Sensor DHT22 (Temperatura e Umidade do ar)
 - Sensor LDR (Luminosidade/Iluminação do campo)
@@ -127,6 +91,7 @@ O sistema avalia automaticamente se o campo está apto para jogos baseado nos se
 - Resistores (10kΩ para LDR e 330Ω para LED)
 
 ### Software e Serviços
+
 - **Arduino IDE**: Programação do ESP32 físico
 - **Wokwi**: Simulador online de ESP32 (alternativa)
 - **AWS EC2**: Máquina virtual na nuvem
@@ -143,23 +108,24 @@ O sistema avalia automaticamente se o campo está apto para jogos baseado nos se
 
 #### 🔌 Tabela de Conexões
 
-| Componente | Pino ESP32 | Observações |
-|------------|------------|-------------|
-| **DHT22** | | |
-| VCC | 3.3V | Alimentação |
-| GND | GND | Terra |
-| DATA | GPIO 4 | Leitura de temperatura e umidade |
-| **LDR (Sensor de Luz)** | | |
-| Terminal 1 | 3.3V | Alimentação |
-| Terminal 2 | GPIO 34 (ADC) | Leitura analógica |
-| Terminal 2 | GND (via resistor 10kΩ) | Divisor de tensão |
-| **LED** | | |
-| Ânodo (+) | GPIO 2 (via resistor 330Ω) | Indicador de status |
-| Cátodo (-) | GND | Terra |
+| Componente              | Pino ESP32                 | Observações                      |
+| ----------------------- | -------------------------- | -------------------------------- |
+| **DHT22**               |                            |                                  |
+| VCC                     | 3.3V                       | Alimentação                      |
+| GND                     | GND                        | Terra                            |
+| DATA                    | GPIO 4                     | Leitura de temperatura e umidade |
+| **LDR (Sensor de Luz)** |                            |                                  |
+| Terminal 1              | 3.3V                       | Alimentação                      |
+| Terminal 2              | GPIO 34 (ADC)              | Leitura analógica                |
+| Terminal 2              | GND (via resistor 10kΩ)    | Divisor de tensão                |
+| **LED**                 |                            |                                  |
+| Ânodo (+)               | GPIO 2 (via resistor 330Ω) | Indicador de status              |
+| Cátodo (-)              | GND                        | Terra                            |
 
 #### 📝 Arquivos do Projeto
 
 Os arquivos do circuito e código estão na pasta `devices/` do repositório:
+
 - `sketch.ino` - Código do ESP32
 - `diagram.json` - Configuração do circuito Wokwi
 
@@ -168,6 +134,7 @@ Os arquivos do circuito e código estão na pasta `devices/` do repositório:
 Abra o arquivo `sketch.ino` e **ajuste as seguintes linhas**:
 
 **Para ESP32 Físico:**
+
 ```cpp
 // Configure seu WiFi
 const char* SSID = "SEU_WIFI";
@@ -179,6 +146,7 @@ const int BROKER_PORT = 1883;
 ```
 
 **Para Simulação no Wokwi:**
+
 ```cpp
 // WiFi do Wokwi (já vem configurado)
 const char* SSID = "Wokwi-GUEST";
@@ -190,14 +158,14 @@ const char* BROKER_MQTT = "SEU_IP_DA_VM_AWS";
 
 #### 🎯 Tópicos MQTT Utilizados
 
-| Tópico | Tipo | Descrição |
-|--------|------|-----------|
-| `/TEF/device001/cmd` | Subscribe | Recebe comandos (LED ON/OFF) |
-| `/TEF/device001/attrs` | Publish | Estado geral do dispositivo |
-| `/TEF/device001/attrs/s` | Publish | Estado do LED (on/off) |
-| `/TEF/device001/attrs/l` | Publish | Luminosidade (0-100%) |
-| `/TEF/device001/attrs/h` | Publish | Umidade do ar (%) |
-| `/TEF/device001/attrs/t` | Publish | Temperatura (°C) |
+| Tópico                   | Tipo      | Descrição                    |
+| ------------------------ | --------- | ---------------------------- |
+| `/TEF/device001/cmd`     | Subscribe | Recebe comandos (LED ON/OFF) |
+| `/TEF/device001/attrs`   | Publish   | Estado geral do dispositivo  |
+| `/TEF/device001/attrs/s` | Publish   | Estado do LED (on/off)       |
+| `/TEF/device001/attrs/l` | Publish   | Luminosidade (0-100%)        |
+| `/TEF/device001/attrs/h` | Publish   | Umidade do ar (%)            |
+| `/TEF/device001/attrs/t` | Publish   | Temperatura (°C)             |
 
 ---
 
@@ -211,14 +179,14 @@ const char* BROKER_MQTT = "SEU_IP_DA_VM_AWS";
 4. Tipo: **t2.medium** ou superior (recomendado para FIWARE)
 5. Configure o **Security Group** com as seguintes portas:
 
-| Porta | Protocolo | Descrição |
-|-------|-----------|-----------|
-| 22 | TCP | SSH |
-| 1883 | TCP | MQTT Broker (Mosquitto) |
-| 1026 | TCP | Orion Context Broker |
-| 4041 | TCP | IoT Agent MQTT |
-| 8666 | TCP | STH-Comet |
-| 5173 | TCP | Dashboard React (desenvolvimento) |
+| Porta | Protocolo | Descrição                         |
+| ----- | --------- | --------------------------------- |
+| 22    | TCP       | SSH                               |
+| 1883  | TCP       | MQTT Broker (Mosquitto)           |
+| 1026  | TCP       | Orion Context Broker              |
+| 4041  | TCP       | IoT Agent MQTT                    |
+| 8666  | TCP       | STH-Comet                         |
+| 5173  | TCP       | Dashboard React (desenvolvimento) |
 
 #### 🔗 2.2 - Conectar via SSH
 
@@ -313,6 +281,7 @@ Execute a requisição **Provisionar Dispositivo** com este payload:
 #### 📝 3.4 - Registrar Comandos e Subscrição
 
 Execute as requisições:
+
 - **Registrar Comando ON**
 - **Registrar Comando OFF**
 - **Criar Subscription** (para STH-Comet)
@@ -350,12 +319,12 @@ O dashboard está em um artifact separado abaixo com instruções de instalaçã
 
 #### 📊 5.3 - Subscrever aos Tópicos
 
-| Tópico | Descrição |
-|--------|-----------|
-| `/TEF/device001/attrs/t` | Temperatura |
-| `/TEF/device001/attrs/h` | Umidade |
+| Tópico                   | Descrição    |
+| ------------------------ | ------------ |
+| `/TEF/device001/attrs/t` | Temperatura  |
+| `/TEF/device001/attrs/h` | Umidade      |
 | `/TEF/device001/attrs/l` | Luminosidade |
-| `/TEF/device001/attrs/s` | Status LED |
+| `/TEF/device001/attrs/s` | Status LED   |
 
 #### 🎛️ 5.4 - Controlar o LED
 
@@ -368,60 +337,31 @@ O dashboard está em um artifact separado abaixo com instruções de instalaçã
 
 ### 🌡️ Temperatura
 
-| Faixa | Status | Descrição |
-|-------|--------|-----------|
-| < 10°C | 🔴 Inadequado | Muito frio - risco de lesões musculares |
-| 10°C - 15°C | 🟡 Atenção | Frio - aquecimento prolongado necessário |
-| 15°C - 28°C | 🟢 Ideal | Condições ideais para prática esportiva |
-| 28°C - 35°C | 🟡 Atenção | Calor - hidratação reforçada necessária |
-| > 35°C | 🔴 Inadequado | Muito quente - risco de insolação |
+| Faixa       | Status        | Descrição                                |
+| ----------- | ------------- | ---------------------------------------- |
+| < 10°C      | 🔴 Inadequado | Muito frio - risco de lesões musculares  |
+| 10°C - 15°C | 🟡 Atenção    | Frio - aquecimento prolongado necessário |
+| 15°C - 28°C | 🟢 Ideal      | Condições ideais para prática esportiva  |
+| 28°C - 35°C | 🟡 Atenção    | Calor - hidratação reforçada necessária  |
+| > 35°C      | 🔴 Inadequado | Muito quente - risco de insolação        |
 
 ### 💧 Umidade
 
-| Faixa | Status | Descrição |
-|-------|--------|-----------|
-| < 30% | 🔴 Inadequado | Ar muito seco - desconforto respiratório |
-| 30% - 40% | 🟡 Atenção | Ar seco - hidratação reforçada |
-| 40% - 70% | 🟢 Ideal | Umidade ideal para jogos |
-| 70% - 80% | 🟡 Atenção | Ar úmido - sensação de abafamento |
-| > 80% | 🔴 Inadequado | Muito úmido - dificuldade de transpiração |
+| Faixa     | Status        | Descrição                                 |
+| --------- | ------------- | ----------------------------------------- |
+| < 30%     | 🔴 Inadequado | Ar muito seco - desconforto respiratório  |
+| 30% - 40% | 🟡 Atenção    | Ar seco - hidratação reforçada            |
+| 40% - 70% | 🟢 Ideal      | Umidade ideal para jogos                  |
+| 70% - 80% | 🟡 Atenção    | Ar úmido - sensação de abafamento         |
+| > 80%     | 🔴 Inadequado | Muito úmido - dificuldade de transpiração |
 
 ### 💡 Luminosidade
 
-| Faixa | Status | Descrição |
-|-------|--------|-----------|
-| < 30% | 🔴 Inadequado | Iluminação insuficiente |
-| 30% - 50% | 🟡 Atenção | Iluminação aceitável (jogos noturnos) |
-| > 50% | 🟢 Ideal | Ótima visibilidade |
-
----
-
-## 🔍 Troubleshooting
-
-### ❌ ESP32 não conecta ao broker MQTT
-
-```bash
-# Verificar se o Mosquitto está rodando
-sudo docker ps | grep mosquitto
-
-# Verificar logs do container
-sudo docker logs mosquitto-mqtt
-
-# Testar conexão
-telnet SEU_IP_AWS 1883
-```
-
-### ❌ Dashboard não recebe dados
-
-- Verifique se o Orion está respondendo: `http://SEU_IP_AWS:1026/version`
-- Confirme que o ESP32 está publicando dados (Serial Monitor)
-- Verifique o console do navegador (F12) para erros de CORS
-
-### ❌ DHT22 retorna valores estranhos
-
-- Adicione resistor pull-up de 10kΩ entre DATA e VCC
-- Aguarde 2-3 segundos após ligar para estabilizar
-- Verifique as conexões do sensor
+| Faixa     | Status        | Descrição                             |
+| --------- | ------------- | ------------------------------------- |
+| < 30%     | 🔴 Inadequado | Iluminação insuficiente               |
+| 30% - 50% | 🟡 Atenção    | Iluminação aceitável (jogos noturnos) |
+| > 50%     | 🟢 Ideal      | Ótima visibilidade                    |
 
 ---
 
@@ -438,8 +378,8 @@ telnet SEU_IP_AWS 1883
 │   │   └── components/
 │   ├── package.json
 │   └── vite.config.js
-├── 📁 postman/
-│   └── fiware-collection.json
+├── 📁 docs/
+│   └── arquitetura.pdf
 ├── 📄 README.md
 └── 📄 LICENSE
 ```
@@ -449,43 +389,22 @@ telnet SEU_IP_AWS 1883
 ## 🎯 Casos de Uso
 
 ### ⚽ Gestores de Campos Esportivos
+
 - Monitoramento em tempo real das condições do campo
 - Decisão informada sobre liberação para jogos
 - Histórico de condições ambientais
 
 ### 🏟️ Organizadores de Eventos
+
 - Planejamento de partidas baseado em previsões
 - Garantia de segurança dos atletas
 - Cumprimento de normas de segurança esportiva
 
 ### 📊 Análise de Dados
+
 - Identificação de padrões climáticos
 - Otimização de horários para jogos
 - Manutenção preventiva baseada em dados
-
----
-
-## 📈 Próximas Melhorias
-
-- [ ] Sensor de umidade do solo (condição do gramado)
-- [ ] Anemômetro (velocidade do vento)
-- [ ] Pluviômetro (medição de chuva)
-- [ ] Alertas via Telegram/WhatsApp
-- [ ] Integração com previsão do tempo
-- [ ] Machine Learning para previsão de condições
-- [ ] API REST para integração com outros sistemas
-- [ ] App mobile nativo (iOS/Android)
-
----
-
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Sinta-se à vontade para:
-
-- 🐛 Reportar bugs
-- 💡 Sugerir melhorias
-- 📖 Melhorar a documentação
-- 🔧 Enviar pull requests
 
 ---
 
@@ -495,23 +414,13 @@ Este projeto está sob a licença MIT.
 
 ---
 
-## 👨‍💻 Autor
+## 👥 Equipe Goal Breakers
 
-**[Seu Nome]**
-
-- GitHub: [@seu-usuario](https://github.com/seu-usuario)
-- LinkedIn: [Seu Perfil](https://linkedin.com/in/seu-perfil)
-
----
-
-## 📚 Referências
-
-- [FIWARE Documentation](https://fiware.org/)
-- [FIWARE Descomplicado](https://github.com/fabiocabrini/fiware)
-- [ESP32 Documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/)
-- [MQTT Protocol](https://mqtt.org/)
-- [React Documentation](https://react.dev/)
-- [Vite Documentation](https://vitejs.dev/)
+- **Áurea Sardinha - 563837**
+- **Eduardo Ulisses - 566339**
+- **Henrique Guedes - 562474**
+- **Laura Tigre - 565281**
+- **Otávio Inaba - 565003**
 
 ---
 
@@ -521,6 +430,6 @@ Este projeto está sob a licença MIT.
 
 **Feito com ❤️ para a comunidade esportiva e IoT**
 
-⚽ *"Tecnologia garantindo as melhores condições para o esporte"*
+⚽ _"Tecnologia garantindo as melhores condições para o esporte"_
 
 </div>

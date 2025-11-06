@@ -16,7 +16,6 @@ function SensorChart({ data }) {
   }
 
   return (
-    // ResponsiveContainer é a chave para o gráfico se adaptar ao tamanho do pai
     <ResponsiveContainer width="100%" height={400}>
       <LineChart
         data={data}
@@ -24,11 +23,9 @@ function SensorChart({ data }) {
       >
         <CartesianGrid strokeDasharray="3 3" stroke="#4a5568" />
         <XAxis dataKey="timestamp" stroke="#e2e8f0" />
-        
-        {/* Eixo Y da esquerda (Temp & Umidade) */}
+
         <YAxis yAxisId="left" stroke="#e2e8f0" />
         
-        {/* Eixo Y da direita (Luminosidade, pois a escala é diferente) */}
         <YAxis yAxisId="right" orientation="right" stroke="#e2e8f0" />
 
         <Tooltip 

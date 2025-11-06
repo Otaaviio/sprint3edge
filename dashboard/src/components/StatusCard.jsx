@@ -6,7 +6,7 @@ function StatusCard({ label, value, unit, status }) {
   const getStatusColor = (status) => {
     if (status === 'Alta') return 'text-red-500';
     if (status === 'Baixa') return 'text-blue-500';
-    return 'text-green-500'; // Normal
+    return 'text-green-500';
   };
 
   return (
