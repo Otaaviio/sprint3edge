@@ -41,7 +41,7 @@ Sistema IoT que monitora em tempo real as condições ambientais de campos de fu
 
 ### Vídeo Completo da Solução
 
-> 🎬 **[Assistir demonstração no YouTube](https://youtu.be/zkD3MFN1Xlc)**
+> 🎬 **[Assistir demonstração no YouTube]([https://youtu.be/zkD3MFN1Xlc](https://youtu.be/f7BxuJfr70I))**
 
 ---
 
@@ -205,6 +205,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 - [FIWARE Descomplicado](https://github.com/fabiocabrini/fiware)
 - [ESP32 Documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/)
 - [MQTT Protocol](https://mqtt.org/)
+
 
 
 
