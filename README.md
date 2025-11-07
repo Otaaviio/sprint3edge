@@ -41,7 +41,7 @@ Sistema IoT que monitora em tempo real as condições ambientais de campos de fu
 
 ### Vídeo Completo da Solução
 
-> 🎬 **[Assistir demonstração no YouTube]([https://youtu.be/zkD3MFN1Xlc](https://youtu.be/f7BxuJfr70I))**
+> 🎬 **[Assistir demonstração no YouTube](https://youtu.be/f7BxuJfr70I)**
 
 ---
 
