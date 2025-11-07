@@ -27,14 +27,14 @@ function Dashboard() {
 
   const avaliarStatusCampo = (temp, humidity, luminosity) => {
     setStatus({
-      temp: temp > 35 ? "Alta" : "Normal" || temp < 5 ? "Baixa" : "Normal",
-      humid: humidity > 80 ? "Alta" : "Normal",
-      lum: luminosity > 1000 ? "Alta" : "Normal",
+      temp: temp > 35 ? "Alta" : temp < 5 ? "Baixa" : "Normal",
+      humid: humidity > 80 ? "Alta" : humidity < 30 ? "Baixa" : "Normal",
+      lum: luminosity > 1000 ? "Alta" : luminosity < 200 ? "Baixa" : "Normal",
     });
   };
 
   useEffect(() => {
-    const ipAddress = "104.197.175.207"; // IP da sua VM
+    const ipAddress = "136.113.111.169"; // IP da sua VM
 
     const buscarDados = async () => {
       try {
